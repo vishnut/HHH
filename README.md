@@ -10,7 +10,7 @@ Two robots would be placed on a hexagonal field. The robots would have to autono
 
 ## The Code
 
-The robot can wall follow, line follow (and edge follow), and do a number of cool tricks. 
+The robot can wall follow, line follow (and edge follow), and do a number of cool tricks. Some of the code written close to competition day has been lost. So, a few methods may seem incomplete or messy. For example, when switching from our prototype to the final robot, we added flaps at the back so that the robot could score. Those flaps were connected to a non-continous servo and the code for that was only written/tested a few hours before competition due to delays in getting the final hardware ready. TODO: Improve time management :) 
 
 ## The Team
 
