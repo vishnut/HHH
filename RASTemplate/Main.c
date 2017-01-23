@@ -43,11 +43,7 @@ void competition(void){
 	}
 }
 
-void runRoller(void){
-	
-
-}
-
+void runRoller(void){}
 
 int  online(){ 
         float line[8];
@@ -61,11 +57,10 @@ int  online(){
 	}
 	if(total > 5){
 		ledGreen();
-		return 1;}
-	else{
-//		ledGreen();
-		return 0;
+		return 1;
 	}
+	else
+		return 0;
 }
 
 //Turns on Red LED
@@ -82,6 +77,7 @@ void ledBlue(void){
 	SetPin(PIN_F3, false);
 }
 
+//Turns on Green LED
 void ledGreen(void){
 	SetPin(PIN_F1, false);
 	SetPin(PIN_F2, false);
@@ -98,10 +94,10 @@ void initMotorsSensors(void) {
       Motors[2] = InitializeServoMotor(PIN_C4, false);
       Motors[3] = InitializeServoMotor(PIN_C5, false);
 
-	marservo = InitializeServo(PIN_B2);
-	pingservo = InitializeServo(PIN_F3);
-	SetServo(marservo,0.1f);
-	SetServo(pingservo,0.1f);
+      marservo = InitializeServo(PIN_B2);
+      pingservo = InitializeServo(PIN_F3);
+      SetServo(marservo,0.1f);
+      SetServo(pingservo,0.1f);
 
       GPIOPadConfigSet(PORT_VAL(PIN_B6), PIN_VAL(PIN_B6), GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD);
       GPIOPadConfigSet(PORT_VAL(PIN_B7), PIN_VAL(PIN_B7), GPIO_STRENGTH_8MA, GPIO_PIN_TYPE_STD);
@@ -112,7 +108,7 @@ void initMotorsSensors(void) {
       adc[1] = InitializeADC(PIN_D1);
       adc[2] = InitializeADC(PIN_D2);
       adc[3] = InitializeADC(PIN_D3);
-	turn=0;
+      turn=0;
       gls = InitializeGPIOLineSensor(
         PIN_B5, 
         PIN_B0, 
@@ -129,36 +125,36 @@ void initMotorsSensors(void) {
 //follows wall with set distance d
 void wallfollow(float d,float t){
 	if(t<d){
-	if(t<(d/2)){
-		setm(0.0f,0.9f);
-		ledBlue();
-	}
-	else if(t<(d*2/3)){
-		setm(0.2f,0.8f);
-		ledBlue();
-	}
-	else{
-		setm(0.4f,0.7f);
-		ledBlue();
-	}
-	}
-	else{
-	if(t==d){
-		setm(.5f,.5f);
-		ledGreen();
-	}
-	else if(t>(d*2)){
-		setm(0.9f,0.0f);
-		ledRed();
-	}
-	else if(t>(d*3/2)){
-		setm(0.8f,0.2f);
-		ledRed();
+		if(t<(d/2)){
+			setm(0.0f,0.9f);
+			ledBlue();
+		}
+		else if(t<(d*2/3)){
+			setm(0.2f,0.8f);
+			ledBlue();
+		}
+		else{
+			setm(0.4f,0.7f);
+			ledBlue();
+		}
 	}
 	else{
-		setm(0.7f,0.4f);
-		ledRed();
-	}
+		if(t==d){
+			setm(.5f,.5f);
+			ledGreen();
+		}
+		else if(t>(d*2)){
+			setm(0.9f,0.0f);
+			ledRed();
+		}
+		else if(t>(d*3/2)){
+			setm(0.8f,0.2f);
+			ledRed();
+		}
+		else{
+			setm(0.7f,0.4f);
+			ledRed();
+		}
 	}
 }
 
@@ -284,10 +280,10 @@ void lineFollow(void) {
 	        for (i = 0; i < 8; i++) {
         	    Printf("%.2f ", line[i]);
 		    	if(line[i] < 1000){
-			total+=((i*1.0f)-3.5f)*line[i];
+				total+=((i*1.0f)-3.5f)*line[i];
 			}
 			else{
-			total+=((i*1.0)-3.5f)*5;
+				total+=((i*1.0)-3.5f)*5;
 			}
        		 }
         Printf("\b]        \r");
@@ -299,8 +295,8 @@ void lineFollow(void) {
 	else if(total < 0){
 		if(total > (-20.0f)){
 			if(turn==0){
-			ledGreen();
-			setm(.25f,.30f);
+				ledGreen();
+				setm(.25f,.30f);
 			}
 			else{
 				turn=0;
@@ -309,11 +305,20 @@ void lineFollow(void) {
 		else if(turn ==1){
 			ledBlue();
 		if (total < (-30))
-		{	ledBlue();setm(.45f, .00f);}
+		{	
+			ledBlue();
+			setm(.45f, .00f);
+		}
 		else if(total > (-25))
-		{	setm(.35f,.00f);ledBlue();}
+		{	
+			setm(.35f,.00f);
+			ledBlue();
+		}
 		else
-		{	setm(.25f, .00f);ledBlue();}
+		{	
+			setm(.25f, .00f);
+			ledBlue();
+		}
 		}
 		else{
 			turn=1;
@@ -322,8 +327,8 @@ void lineFollow(void) {
 	else{
 		if(total < (20.0f)){
 			if(turn==0){
-			ledGreen();
-			setm(.25f,.30f);
+				ledGreen();
+				setm(.25f,.30f);
 			}
 			else{
 				turn=0;
@@ -331,13 +336,22 @@ void lineFollow(void) {
 		}
 		else{
 			ledRed();
-		if(turn==2){
-		if(total > 30)
-		{	ledRed();setm(.00f,.45f);}
-		else if(total < 25)
-		{	setm(.00f,.35f);ledRed();}
-		else
-		{	setm(.00f,.25f);ledRed();}
+			if(turn==2){
+			if(total > 30)
+			{	
+				ledRed();
+				setm(.00f,.45f);
+			}
+			else if(total < 25)
+			{	
+				setm(.00f,.35f);
+				ledRed();
+			}
+			else
+			{	
+				setm(.00f,.25f);
+				ledRed();
+			}
 		}
 		else{
 			turn=2;
@@ -457,16 +471,16 @@ void tryservo(void){
 
 
 int main(void) { 
-     Printf("\nRunningo\n");
-     ledBlue();
-     initMotorsSensors(); //initialize all
+        Printf("\nRunningo\n");
+        ledBlue();
+	initMotorsSensors(); //initialize all
 	tryservo();	
-//	runMotor();
-//	squaredance();
-//	feight();
+	runMotor();
+	squaredance();
+	feight();
 
 
-/*     float d=.30f;
+        float d=.30f;
 	int next=0;	
 	while(next<2){
 		edgefollow();
@@ -511,6 +525,6 @@ int main(void) {
 		d-=.05f;
     	}
 	setm(0.0f,0.0f);
-*/
+
 }
 
